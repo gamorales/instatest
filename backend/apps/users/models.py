@@ -97,6 +97,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_verificated = models.BooleanField(default=False)
 
     code = models.CharField(max_length=6, default=0)
+    profile_photo = models.CharField(max_length=255, default='profile_pics/no-img.jpg')
+
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
