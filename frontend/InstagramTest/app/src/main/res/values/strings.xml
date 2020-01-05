@@ -45,7 +45,7 @@
     <string name="tipsters">Tipsters</string>
     <string name="email_required">Email Required</string>
     <string name="password_required">Password Required</string>
-    <string name="rest_url">https://vast-retreat-09891.herokuapp.com/</string>
+    <string name="rest_url">http://localhost:8000/</string>
     <string name="password_min_8">Min Length 8 characters</string>
     <string name="email_bad_format">Email format not valid</string>
     <string name="tips_odds">Odds :</string>
@@ -68,5 +68,8 @@
     <string name="url_premium">http://stimpy-15896.herokuapp.com/#/</string>
     <string name="be_premium">Be Premium</string>
     <string name="tipsters_detail">Bet Detail</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

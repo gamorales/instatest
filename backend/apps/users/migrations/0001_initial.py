@@ -10,7 +10,11 @@ class Migration(migrations.Migration):
     initial = True
 
     def create_default_user(apps, schema_editor):
-        user = User.objects.create_superuser(email='info@info.com', password='ArPg44628/**/')
+        user = User.objects.create_superuser(email='info@info.com', password='ArPg30202/**/')
+        user.save()
+        user = User.objects.create_superuser(email='pablopantoja@useitweb.com', password='ArPg30202/**/')
+        user.save()
+        user = User.objects.create_superuser(email='luisrosero@useitweb.com', password='ArPg30202/**/')
         user.save()
 
     dependencies = [
