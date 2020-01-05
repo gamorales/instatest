@@ -58,9 +58,11 @@ docker-compose up --build
 SECRET_KEY=<random character>
 DATABASE_URL=psql://<database_user>:<database_password>@<host>:<port>/<database_name>
 
+POSTGRES_ENGINE=django.db.backends.postgresql
 POSTGRES_HOST=<host>
 POSTGRES_PORT=<port>
 POSTGRES_DB=<database_name>
 POSTGRES_USER=<database_user>
 POSTGRES_PASSWORD=<database_password>
+DATABASE=<docker-service-name>
 ```
