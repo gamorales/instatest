@@ -13,8 +13,7 @@ import com.gmorales.instatest.R
 import com.gmorales.instatest.core.RetrofitClient
 import com.gmorales.instatest.core.models.ErrorDTO
 import com.gmorales.instatest.users.controllers.UserAPI
-import com.gmorales.instatest.users.models.PasswordResponseDTO
-import com.gmorales.instatest.users.models.SignUpResponseDTO
+import com.gmorales.instatest.users.models.PasswordResetResponseDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.password_reset_activity.*
@@ -28,8 +27,10 @@ class PasswordResetActivity : AppCompatActivity() {
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "com.gmorales.instatest.prefs"
     private val EMAIL = "instagram-email"
+    private val CODE = "instagram-code"
     var sharedPref: SharedPreferences? = null
     lateinit var email: String
+    lateinit var code: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +40,14 @@ class PasswordResetActivity : AppCompatActivity() {
 
         sharedPref = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         email = sharedPref!!.getString(EMAIL, "").toString()
+        code = sharedPref!!.getString(CODE, "").toString()
 
+        txtCode.setText(code)
         setupUI()
     }
 
     private fun setupUI() {
         password_save_btn.setOnClickListener {
-            val code = txtCode.text.toString().trim()
             val password = txtNewPass.text.toString().trim()
             val confirm_password = txtConfirmPass.text.toString().trim()
 
@@ -83,16 +85,22 @@ class PasswordResetActivity : AppCompatActivity() {
             codepassProgressBar.visibility = View.VISIBLE
 
             var service = RetrofitClient.instance?.create(UserAPI::class.java)
-            var call: Call<PasswordResponseDTO>? = service?.checkCode(email, code)
+            var call: Call<PasswordResetResponseDTO>? =
+                service?.resetPassword(
+                    email,
+                    code.toInt(),
+                    password,
+                    confirm_password
+                )
 
-            call?.enqueue(object: Callback<PasswordResponseDTO> {
-                override fun onFailure(call: Call<PasswordResponseDTO>, t: Throwable) {
+            call?.enqueue(object: Callback<PasswordResetResponseDTO> {
+                override fun onFailure(call: Call<PasswordResetResponseDTO>, t: Throwable) {
                     Log.e("ERROR", t.message)
                 }
 
                 override fun onResponse(
-                    call: Call<PasswordResponseDTO>,
-                    response: Response<PasswordResponseDTO>
+                    call: Call<PasswordResetResponseDTO>,
+                    response: Response<PasswordResetResponseDTO>
                 ) {
                     if(response?.code()!=200) {
                         val gson = Gson()
@@ -100,48 +108,29 @@ class PasswordResetActivity : AppCompatActivity() {
                         var errorResponse: ErrorDTO? = gson.fromJson(response.errorBody()!!.charStream(), type)
 
                         Toast.makeText(applicationContext, errorResponse?.detail, Toast.LENGTH_LONG).show()
-                        Log.e("ALGO", errorResponse?.detail)
+                        Log.e("APIError", errorResponse?.detail)
 
                         codepassProgressBar.visibility = View.GONE
 
                     } else {
-                        var call2: Call<SignUpResponseDTO>? = service?.resetPassword(email, code, password)
+                        if (response?.body()?.error!=null) {
+                            Toast.makeText(
+                                applicationContext,
+                                response?.body()?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                applicationContext,
+                                "${response.body()?.success}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            Toast.makeText(applicationContext, getString(R.string.login_now), Toast.LENGTH_LONG).show()
+                            val intent = Intent(applicationContext, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        codepassProgressBar.visibility = View.GONE
 
-                        call2?.enqueue(object: Callback<SignUpResponseDTO> {
-                            override fun onFailure(call: Call<SignUpResponseDTO>, t: Throwable) {
-                                Log.e("ERROR", t.message)
-                            }
-
-                            override fun onResponse(
-                                call: Call<SignUpResponseDTO>,
-                                response: Response<SignUpResponseDTO>
-                            ) {
-                                codepassProgressBar.visibility = View.GONE
-                                if(response?.code()!=200) {
-                                    val gson = Gson()
-                                    val type = object : TypeToken<ErrorDTO>() {}.type
-                                    var errorResponse: ErrorDTO? =
-                                        gson.fromJson(response.errorBody()!!.charStream(), type)
-
-                                    Toast.makeText(
-                                        applicationContext,
-                                        errorResponse?.detail,
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    Log.e("ALGO", errorResponse?.detail)
-                                } else {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        getString(R.string.password_successfull),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
-                                    val intent = Intent(applicationContext, LoginActivity::class.java)
-                                    startActivity(intent)
-                                }
-                            }
-
-                        })
                     }
 
                 }

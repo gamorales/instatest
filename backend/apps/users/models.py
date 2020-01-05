@@ -96,6 +96,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_verificated = models.BooleanField(default=False)
 
+    code = models.CharField(max_length=6, default=0)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 

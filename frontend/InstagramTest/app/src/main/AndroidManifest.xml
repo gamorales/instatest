@@ -12,11 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".users.views.SignUpActivity" />
-        <activity android:name=".users.views.PasswordResetActivity" />
-        <activity android:name=".users.views.PasswordActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".users.views.LoginActivity">
+        <activity
+            android:name=".users.views.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".users.views.PasswordResetActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".users.views.PasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".users.views.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

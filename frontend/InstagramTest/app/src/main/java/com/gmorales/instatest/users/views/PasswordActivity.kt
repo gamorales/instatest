@@ -28,6 +28,7 @@ class PasswordActivity : AppCompatActivity() {
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "com.gmorales.instatest.prefs"
     private val EMAIL = "instagram-email"
+    private val CODE = "instagram-code"
     var sharedPref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +65,7 @@ class PasswordActivity : AppCompatActivity() {
 
             call?.enqueue(object: Callback<PasswordResponseDTO> {
                 override fun onFailure(call: Call<PasswordResponseDTO>, t: Throwable) {
-                    Log.e("ERROR", t.message)
+                    Log.e("API Error", t.message)
                 }
 
                 override fun onResponse(
@@ -78,16 +79,30 @@ class PasswordActivity : AppCompatActivity() {
                         var errorResponse: ErrorDTO? = gson.fromJson(response.errorBody()!!.charStream(), type)
 
                         Toast.makeText(applicationContext, errorResponse?.detail, Toast.LENGTH_LONG).show()
-                        Log.e("ALGO", errorResponse?.detail)
+                        Log.e("API Error", errorResponse?.detail)
 
                     } else {
+                        if (response?.body()?.error!=null) {
+                            Toast.makeText(
+                                applicationContext,
+                                response?.body()?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                applicationContext,
+                                response?.body()?.success,
+                                Toast.LENGTH_LONG
+                            ).show()
 
-                        val editor = sharedPref!!.edit()
-                        editor.putString(EMAIL, email)
-                        editor.apply()
+                            val editor = sharedPref!!.edit()
+                            editor.putString(CODE, response?.body()?.code.toString())
+                            editor.putString(EMAIL, response?.body()?.email)
+                            editor.apply()
 
-                        val intent = Intent(applicationContext, PasswordResetActivity::class.java)
-                        startActivity(intent)
+                            val intent = Intent(applicationContext, PasswordResetActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
                 }
             })
