@@ -9,17 +9,7 @@ services:
       - .:/usr/src/app/
     ports:
       - 8000:8000
-    # env_file: .env
-    environment:
-      - DEBUG=1
-      - SECRET_KEY=c0#+t82qw5uefr0=1^_8#zq#ezw@-pf#5j8+foo)71-5of*dv-
-      - POSTGRES_ENGINE=django.db.backends.postgresql
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB=instatest
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=lerolero
-      - DATABASE=postgres
+    env_file: .env
     depends_on:
       - postgres
 
