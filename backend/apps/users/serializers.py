@@ -52,9 +52,9 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {
                     "password": """
-                                Password must contains numbers, uppercase and lowercase 
-                                letters and at least one special character.
-                                """
+Password must contains numbers, uppercase and lowercase 
+letters and at least one special character.
+"""
                 }
             )
 
@@ -93,6 +93,7 @@ class UserSerializer(serializers.ModelSerializer):
             first_name=first_name,
             last_name=last_name,
             password=password,
+            is_active=True,
         )
         user.set_password(password)
         user.save()

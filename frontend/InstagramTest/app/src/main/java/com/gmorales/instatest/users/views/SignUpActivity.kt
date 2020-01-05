@@ -82,8 +82,8 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             if (confirm_password.isEmpty()) {
-                signup_password.error = getString(R.string.password_required)
-                signup_password.requestFocus()
+                signup_confirm_password.error = getString(R.string.password_required)
+                signup_confirm_password.requestFocus()
                 return@setOnClickListener
             }
 
@@ -130,9 +130,14 @@ class SignUpActivity : AppCompatActivity() {
                         val type = object : TypeToken<SignUpResponseDTO>() {}.type
                         var errorResponse: SignUpResponseDTO? = gson.fromJson(response.errorBody()!!.charStream(), type)
 
-                        Toast.makeText(applicationContext, errorResponse?.password, Toast.LENGTH_LONG).show()
-                        Log.e("API Error", errorResponse?.password)
+                        Toast.makeText(applicationContext, errorResponse?.password?.trim(), Toast.LENGTH_LONG).show()
+                        Log.e("API Error", errorResponse?.password?.trim())
                     } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "${response.body()?.success} ${response.body()?.name}",
+                            Toast.LENGTH_LONG
+                        ).show()
                         Toast.makeText(applicationContext, getString(R.string.login_now), Toast.LENGTH_LONG).show()
                         val intent = Intent(applicationContext, LoginActivity::class.java)
                         startActivity(intent)
