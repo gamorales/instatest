@@ -28,10 +28,13 @@ interface UserAPI {
     ):Call<LoginResponseDTO>
 
     @FormUrlEncoded
-    @POST("customers/signup")
+    @POST("users/register/")
     fun signupAuth(
+        @Field("first_name") first_name:String,
+        @Field("last_name") last_name:String,
         @Field("email") email:String,
-        @Field("password") password:String
+        @Field("password") password:String,
+        @Field("confirm_password") confirm_password:String
     ):Call<SignUpResponseDTO>
 
     @FormUrlEncoded

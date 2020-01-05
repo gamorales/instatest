@@ -71,5 +71,11 @@
     <string name="title_activity_main2">MainActivity</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name_required">Last name is required</string>
+    <string name="first_name_required">First name is required</string>
+    <string name="password_not_equals">These fields are not equals</string>
+    <string name="password_bad_format">Password format no valid.</string>
 
 </resources>

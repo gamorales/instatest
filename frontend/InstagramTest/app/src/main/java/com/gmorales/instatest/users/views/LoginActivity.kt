@@ -11,15 +11,12 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import com.gmorales.instatest.MainActivity
 import com.gmorales.instatest.core.isEmail
 import com.gmorales.instatest.core.RetrofitClient
 import com.gmorales.instatest.users.controllers.UserAPI
 import com.gmorales.instatest.users.models.LoginResponseDTO
 import com.gmorales.instatest.core.models.ErrorDTO
-
-
 import com.gmorales.instatest.users.models.TokenDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -31,8 +28,8 @@ import retrofit2.Callback
 
 
 class LoginActivity : AppCompatActivity() {
-    private var PRIVATE_MODE = 0
-    private val PREF_NAME = "com.gmorales.instatest.prefs"
+    private var PRIVATEMODE = 0
+    private val PREFNAME = "com.gmorales.instatest.prefs"
     private val TOKEN = "instagram-token"
     private val REFRESH = "instagram-refresh-token"
     private val LOGGED = "instagram-logged"
@@ -47,13 +44,13 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.login_activity)
 
-        sharedPref = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+        sharedPref = this.getSharedPreferences(PREFNAME, PRIVATEMODE)
 
-        var logged: Boolean = sharedPref!!.getBoolean(LOGGED, false)
+        val logged: Boolean = sharedPref!!.getBoolean(LOGGED, false)
         signin_email.setText(sharedPref!!.getString(EMAIL, "").toString())
 
         // If is logged, goes directly to main screen
-        if (logged==true) {
+        if (logged) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -112,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
                         var errorResponse: ErrorDTO? = gson.fromJson(response.errorBody()!!.charStream(), type)
 
                         Toast.makeText(applicationContext, errorResponse?.detail, Toast.LENGTH_LONG).show()
-                        Log.e("ALGO", errorResponse?.detail)
+                        Log.e("API Error", errorResponse?.detail)
                     } else {
                         var accessToken: String = "instatest "+response?.body()?.access
 
@@ -141,9 +138,8 @@ class LoginActivity : AppCompatActivity() {
                                         errorResponse?.detail,
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    Log.e("ALGO", errorResponse?.detail)
+                                    Log.e("API Error", errorResponse?.detail)
                                 } else {
-                                    Log.e("DATA", responseUserData?.body().toString())
                                     val editor = sharedPref!!.edit()
                                     editor.putString(
                                         NAME,
@@ -181,29 +177,5 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         // super.onBackPressed()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    fun showDialog(title: String, message: String?, view: View){
-
-        val builder = AlertDialog.Builder(this)
-
-        with(builder)
-        {
-            setTitle(title)
-            setMessage("lerolero")
-            setPositiveButton(android.R.string.ok) { dialog, which ->
-                Toast.makeText(applicationContext,
-                    android.R.string.yes, Toast.LENGTH_SHORT).show()
-            }
-            show()
-        }
     }
 }
