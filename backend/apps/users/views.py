@@ -13,6 +13,37 @@ from .models import User
 from .serializers import UserSerializer
 
 
+@api_view(['POST', ])
+@permission_classes([IsAuthenticated])
+def user_data(request):
+    """ Retrieves User DTO
+
+    Args:
+        request: Request access to consume the API
+        pk: Id of the user to search
+
+    Return:
+        JSON with the user object
+        example:
+            {
+                "id": 6,
+                "email": "info@info.com",
+                "first_name": "Guillermo",
+                "last_name": "Alfonso",
+                "date_joined": "2020-01-02T13:59:45.102786Z",
+                "is_superuser": true,
+                "is_active": true
+            }
+    """
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(email=request.data['email'])
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        except User.DoesNotExist:
+            return Response({"error": True, "message": f"email user {email} no exists"})
+
+
 @api_view(['GET', ])
 @permission_classes([IsAuthenticated])
 def get_users_list(request):
