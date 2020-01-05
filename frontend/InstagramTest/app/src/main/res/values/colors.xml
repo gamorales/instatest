@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF6D6D6D</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="primaryLightColor">#FFD0D2D6</color>
+    <color name="rv_tipster_background">#FFFFFF</color>
+    <color name="followers_color_percent">#2ee54a</color>
+    <color name="border_round_recycler">#ACACAC</color>
+</resources>
