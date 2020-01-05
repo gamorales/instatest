@@ -6,7 +6,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import java.util.regex.Pattern.compile
 
-private val emailRegex = compile(
+private val emailRegex = compile("\\\"?([-a-zA-Z0-9.`?{}]+@\\w+\\.\\w+)\\\"?")
+private val passwordRegex = compile("^(?=\\S{6,20}\$)(?=.*?\\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\\s0-9])")
+/*compile(
     "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
             "\\@" +
             "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
@@ -14,7 +16,14 @@ private val emailRegex = compile(
             "\\." +
             "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
             ")+"
-)
+)*/
+
+/**
+ * Validate password strings
+ */
+fun String.isPassword() : Boolean {
+    return passwordRegex.matcher(this).matches()
+}
 
 /**
  * Validate email strings
