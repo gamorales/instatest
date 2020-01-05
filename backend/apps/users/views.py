@@ -272,6 +272,13 @@ def get_code(request):
             {
                 "code": 123456,
             }
+            
+    Raises:
+        example:
+            {
+                "error": True,
+                "message": "Email with code are wrong!"
+            }
     """
     if request.method == 'POST':
         try:
@@ -309,6 +316,13 @@ def reset_password(request):
             {
                 "success": "Password updated for user Guillermo Morales.",
                 "email": "info@info.com"
+            }
+
+    Raises:
+        example:
+            {
+                "error": True,
+                "message": "Email with code are wrong!"
             }
     """
     if request.method == 'POST':

@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "71a9e4c3-e6b4-4825-b1d7-ef0e4adc2985",
+		"name": "instagram",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "11497820-9074-4c5e-8ef5-6d89a191d0bc",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4621e004-978f-41f0-90e2-108f928155a3",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.environment.set(\"token\", response.access);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"info@info.com\",\n\t\"password\": \"ArPg44628/**/\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}login/",
+					"host": [
+						"{{host}}login"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "token\t\t"
+			},
+			"response": []
+		},
+		{
+			"name": "User List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "instatest {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}users/list/",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"list",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "instatest {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"algo@algos.edu.coss\",\n    \"first_name\": \"Marco\",\n    \"last_name\": \"Polo\",\n    \"password\": \"ArPg44628/**/\",\n\t\"confirm_password\": \"ArPg44628/**/\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}users/register/",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "instatest {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"algos@algos.edu.co\",\n    \"first_name\": \"Marcos\",\n    \"last_name\": \"Polos\",\n    \"password\": \"ArPg44628/*Daenerys*\",\n\t\"confirm_password\": \"ArPg44628/*Daenerys*\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}users/update/3",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"update",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "instatest {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}users/delete/3",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"delete",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "instatest {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"info@info.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}users/login/",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forgot password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"cpuccio@lesluthiers.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}users/forgot-password/",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"forgot-password",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"cpuccio@lesluthiers.com\",\n\t\"code\": 792897,\n\t\"password\": \"ArPg33!!\",\n\t\"confirm_password\": \"ArPg33!!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}users/reset-password/",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"reset-password",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
