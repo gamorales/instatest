@@ -20,7 +20,6 @@ def user_data(request):
 
     Args:
         request: Request access to consume the API
-        pk: Id of the user to search
 
     Return:
         JSON with the user object
@@ -256,3 +255,76 @@ def registration(request):
 
         return Response(data)
 
+
+@api_view(['POST', ])
+def get_code(request):
+    """ Recover User password with code
+
+    Before change User password, a code of 6 digits will be send to the user
+
+    Args:
+        request: Request data with
+            * email
+
+    Return:
+        JSON with the code to change
+        example:
+            {
+                "code": 123456,
+            }
+    """
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(email=request.data['email'])
+            serializer = UserSerializer(
+                instance=user,
+                data=request.data,
+                partial=True  # To update some fields but not necessarily all at once.
+            )
+            data = {}
+            if serializer.is_valid(raise_exception=True):
+                user = serializer.code(user)
+                data['success'] = f"Code for {user.first_name} {user.last_name}, generated"
+                data['email'] = user.email
+                data['code'] = user.code
+
+            return Response(data)
+        except User.DoesNotExist:
+            return Response({"error": True, "message": f"Email {request.data['email']} doesn't exists"})
+
+
+@api_view(['POST', ])
+def reset_password(request):
+    """ Recover User password with code
+
+    Before change User password, a code of 6 digits will be send to the user
+
+    Args:
+        request: Request data with
+            * email
+
+    Return:
+        JSON with the code to change
+        example:
+            {
+                "success": "Password updated for user Guillermo Morales.",
+                "email": "info@info.com"
+            }
+    """
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(email=request.data['email'], code=request.data['code'])
+            serializer = UserSerializer(
+                instance=user,
+                data=request.data,
+                partial=True  # To update some fields but not necessarily all at once.
+            )
+            data = {}
+            if serializer.is_valid(raise_exception=True):
+                user = serializer.reset_password(user)
+                data['success'] = f"Password updated for user {user.first_name} {user.last_name}."
+                data['email'] = user.email
+
+            return Response(data)
+        except User.DoesNotExist:
+            return Response({"error": True, "message": f"Email {request.data['email']} with code {request.data['code']} are wrong!"})

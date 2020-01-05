@@ -157,3 +157,47 @@ letters and at least one special character.
         instance.is_active = False
         instance.save()
         return instance
+
+    def code(self, instance):
+        """ Generate random value for User code field
+
+        The value will be a 6 random number between 100000 and 999999
+
+        Args:
+            instance: pk or id of the record to be updated
+
+        Return:
+            Object of the user updated
+        """
+        import random
+        instance.code = random.randint(100000, 999999)
+        instance.save()
+        return instance
+
+    def reset_password(self, instance):
+        """ Save new password for User
+
+        The value will be a 6 random number between 100000 and 999999
+
+        Args:
+            instance: pk or id of the record to be updated
+
+        Return:
+            Object of the user updated
+
+        Raises:
+            serializers.ValidationError: An error ocurred when the first_name or last_name are empty
+            serializers.ValidationError: An error ocurred when all fields are empty
+        """
+
+        email = self.validated_data['email']
+        password = self.validated_data['password']
+        confirm_password = self.validated_data['confirm_password']
+
+        if password != '':
+            self.validate_fields(email, password, confirm_password)
+            instance.set_password(password)
+        
+        instance.code = 0
+        instance.save()
+        return instance

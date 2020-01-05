@@ -1,9 +1,6 @@
 package com.gmorales.instatest.users.controllers
 
-import com.gmorales.instatest.users.models.TokenDTO
-import com.gmorales.instatest.users.models.LoginResponseDTO
-import com.gmorales.instatest.users.models.PasswordResponseDTO
-import com.gmorales.instatest.users.models.SignUpResponseDTO
+import com.gmorales.instatest.users.models.*
 
 import retrofit2.Call
 import retrofit2.http.Field
@@ -38,24 +35,18 @@ interface UserAPI {
     ):Call<SignUpResponseDTO>
 
     @FormUrlEncoded
-    @POST("customers/forgot-password")
+    @POST("users/forgot-password/")
     fun forgotPassword(
         @Field("email") email:String
     ):Call<PasswordResponseDTO>
 
     @FormUrlEncoded
-    @POST("customers/check-code")
-    fun checkCode(
-        @Field("email") email:String,
-        @Field("code") code:String
-    ):Call<PasswordResponseDTO>
-
-    @FormUrlEncoded
-    @POST("customers/reset-password")
+    @POST("users/reset-password/")
     fun resetPassword(
         @Field("email") email:String,
-        @Field("code") code:String,
-        @Field("password") password:String
-    ):Call<SignUpResponseDTO>
+        @Field("code") code:Int,
+        @Field("password") password:String,
+        @Field("confirm_password") confirm_password:String
+    ):Call<PasswordResetResponseDTO>
 }
 

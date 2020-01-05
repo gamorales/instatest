@@ -11,7 +11,9 @@ import com.gmorales.instatest.R
 import com.gmorales.instatest.core.RetrofitClient
 import com.gmorales.instatest.core.isEmail
 import com.gmorales.instatest.core.isPassword
+import com.gmorales.instatest.core.models.ErrorDTO
 import com.gmorales.instatest.users.controllers.UserAPI
+import com.gmorales.instatest.users.models.PasswordResetResponseDTO
 import com.gmorales.instatest.users.models.SignUpResponseDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -127,11 +129,11 @@ class SignUpActivity : AppCompatActivity() {
                     if (response?.code() != 200) {
 
                         val gson = Gson()
-                        val type = object : TypeToken<SignUpResponseDTO>() {}.type
-                        var errorResponse: SignUpResponseDTO? = gson.fromJson(response.errorBody()!!.charStream(), type)
+                        val type = object : TypeToken<ErrorDTO>() {}.type
+                        var errorResponse: ErrorDTO? = gson.fromJson(response.errorBody()!!.charStream(), type)
 
-                        Toast.makeText(applicationContext, errorResponse?.password?.trim(), Toast.LENGTH_LONG).show()
-                        Log.e("API Error", errorResponse?.password?.trim())
+                        Toast.makeText(applicationContext, errorResponse?.detail?.trim(), Toast.LENGTH_LONG).show()
+                        Log.e("API Error", errorResponse?.detail?.trim())
                     } else {
                         Toast.makeText(
                             applicationContext,
