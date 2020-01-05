@@ -3,7 +3,7 @@ from django.urls import path
 from apps.users.views import (
     registration, update, delete, disable,
     get_user, get_users_list, user_data,
-    get_code, reset_password
+    get_code, reset_password, upload_pic
 )
 
 app_name = 'users'
@@ -14,6 +14,7 @@ urlpatterns = [
     path('forgot-password/', get_code, name='forgot-password'),
     path('reset-password/', reset_password, name='reset-password'),
     path('update/<int:pk>', update, name='update'),
+    path('profile-pic/', upload_pic, name='profile-pic'),
     path('delete/<int:pk>', delete, name='delete'),
     path('disable/<int:pk>', disable, name='disable'),
     path('list/<int:pk>', get_user, name='single-user'),

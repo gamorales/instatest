@@ -14,7 +14,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'date_joined', 'is_superuser', 'is_active', 'password', 'confirm_password']
+        fields = [
+            'id', 'email', 'first_name', 'last_name', 'profile_photo',
+            'date_joined', 'is_superuser', 'is_active', 
+            'password', 'confirm_password'
+        ]
         extra_kwargs = {
             'password': {'write_only': True}  # Security to avoid users can read the field
         }
@@ -199,5 +203,10 @@ letters and at least one special character.
             instance.set_password(password)
         
         instance.code = 0
+        instance.save()
+        return instance
+
+    def upload_pic(self, instance):
+        instance.profile_photo = self.validated_data['profile_photo']
         instance.save()
         return instance

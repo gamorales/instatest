@@ -1,13 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import json
 
 from django.views.generic import TemplateView
-from rest_framework.pagination import PageNumberPagination
+from django.http import HttpResponse
+from django.conf import settings
 
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework import status
 
 from .models import User
 from .serializers import UserSerializer
@@ -272,7 +277,7 @@ def get_code(request):
             {
                 "code": 123456,
             }
-            
+
     Raises:
         example:
             {
@@ -342,3 +347,47 @@ def reset_password(request):
             return Response(data)
         except User.DoesNotExist:
             return Response({"error": True, "message": f"Email {request.data['email']} with code {request.data['code']} are wrong!"})
+
+
+@api_view(['POST', ])
+@permission_classes([IsAuthenticated])
+def upload_pic(request):
+    """ Updates User profile picture
+
+    Args:
+        request: Request access to consume the API
+
+    Return:
+        JSON with status and message if success
+    """
+    import base64
+
+    try:
+        user = User.objects.get(email=request.data['email'])
+
+        # First the pic will be saved in the path
+        file_path = f"{settings.MEDIA_ROOT}/profile_pics/profile_{user.id}.png"
+        picture = request.data['profile_pic']
+
+        picture_bytes = picture.encode('utf-8')
+        with open(file_path, 'wb') as file:
+            decoded_image_data = base64.decodebytes(picture_bytes)
+            file.write(decoded_image_data)
+
+        request.data['profile_photo'] = file_path
+
+        # Now is updated the User model
+        serializer = UserSerializer(
+            instance=user,
+            data=request.data,
+            partial=True  # To update some fields but not necessarily all at once.
+        )
+        data = {}
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.upload_pic(user)
+            data['success'] = f"Profile photo for user {user.first_name} {user.last_name} has been updated."
+            data['email'] = user.email
+
+        return Response(data)
+    except User.DoesNotExist:
+        return Response({"error": True, "message": f"{request.data['email']} user can't be updated because doesn't exists"})
