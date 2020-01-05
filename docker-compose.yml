@@ -5,12 +5,21 @@ services:
     build:
       context: .
       dockerfile: dockerizing/app/Dockerfile
-    image: crm_local_django
     volumes:
-      - .:/usr/src/crm/
+      - .:/usr/src/app/
     ports:
       - 8000:8000
-    env_file: .env
+    # env_file: .env
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=c0#+t82qw5uefr0=1^_8#zq#ezw@-pf#5j8+foo)71-5of*dv-
+      - POSTGRES_ENGINE=django.db.backends.postgresql
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=instatest
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=lerolero
+      - DATABASE=postgres
     depends_on:
       - postgres
 
@@ -21,13 +30,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=lerolero
-      - POSTGRES_DB=crm
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+      - POSTGRES_DB=instatest
 
 volumes:
   postgres_data:

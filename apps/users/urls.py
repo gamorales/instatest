@@ -1,7 +1,7 @@
 from django.urls import path
 
 from apps.users.views import (
-    Login, registration, update, delete, disable,
+    registration, update, delete, disable,
     get_user, get_users_list
 )
 

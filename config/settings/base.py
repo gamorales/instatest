@@ -168,7 +168,7 @@ SIMPLE_JWT = {
     'AUDIENCE': None,
     'ISSUER': None,
 
-    'AUTH_HEADER_TYPES': ('crm',),
+    'AUTH_HEADER_TYPES': ('instatest',),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
 
@@ -176,4 +176,4 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-CORS_ORIGIN_WHITELIST = env.list('ALLOWED_HOSTS_CORS')
+CORS_ORIGIN_WHITELIST = os.environ.get('ALLOWED_HOSTS_CORS', ['http://localhost:8000', 'http://127.0.0.1:8000']).split(',')

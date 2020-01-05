@@ -1,6 +1,6 @@
 FROM python:3.7.4-alpine
 
-WORKDIR /usr/src/crm
+WORKDIR /usr/src/app
 
 # Prevents Python from writing pyc files to disc
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -8,8 +8,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE "config.settings.local"
 
-COPY ./requirements/base.txt /usr/src/crm/base.txt
-COPY ./requirements/local.txt /usr/src/crm/local.txt
+COPY ./requirements/base.txt /usr/src/app/base.txt
+COPY ./requirements/local.txt /usr/src/app/local.txt
 
 RUN pip install --upgrade pip
 RUN \
@@ -20,7 +20,7 @@ RUN \
  python3 -m pip install -r local.txt --no-cache-dir && \
  apk --purge del build-deps
 
-COPY . /usr/src/crm/
+COPY . /usr/src/app/
 
 # Check PostgreSQL is running and run Django project
-ENTRYPOINT ["/usr/src/crm/dockerizing/app/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/dockerizing/app/entrypoint.sh"]
