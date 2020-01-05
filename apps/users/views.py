@@ -189,14 +189,18 @@ def update(request, pk):
 
 
 @api_view(['POST', ])
-@permission_classes([IsAuthenticated])
 def registration(request):
     """ Register new User
 
     If the new user email already exists, the shows a message informing than the email account is registered.
 
     Args:
-        request: Request access to consume the API
+        request: Request data with
+            * email
+            * password
+            * confirm_password
+            * first_name
+            * last_name
 
     Return:
         JSON with data of the user created
