@@ -2,7 +2,6 @@ package com.gmorales.instatest.users.views
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,13 +11,15 @@ import android.view.ViewGroup
 import android.widget.*
 
 import com.gmorales.instatest.R
+import com.gmorales.instatest.core.Constants
+import com.gmorales.instatest.core.CircleTransform
 import com.gmorales.instatest.core.RetrofitClient
 import com.gmorales.instatest.core.models.ErrorDTO
 import com.gmorales.instatest.users.controllers.UserAPI
 import com.gmorales.instatest.users.models.SignUpResponseDTO
-import com.gmorales.instatest.users.models.TokenDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,6 +33,9 @@ class ProfileFragment : Fragment() {
     private val FIRST_NAME = "instagram-first-name"
     private val LAST_NAME = "instagram-last-name"
     private val EMAIL = "instagram-email"
+    private val PHOTO = "instagram-profile-photo"
+
+    private val TAG = "ProfileFragment"
 
     var sharedPref: SharedPreferences? = null
 
@@ -50,6 +54,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.setTitle(R.string.title_profile)
         setupUI(view)
     }
 
@@ -58,9 +63,12 @@ class ProfileFragment : Fragment() {
 
         var token: String = sharedPref!!.getString(TOKEN, "").toString()
         var id: Int = sharedPref!!.getInt(ID, 0)
+        var profile_photo: String = sharedPref!!.getString(PHOTO, "").toString()
 
         val llProfileEditor = view.findViewById(R.id.llProfileEditor) as LinearLayout
         val llProfileViewer = view.findViewById(R.id.llProfileViewer) as LinearLayout
+
+        val ivProfilePicture = view.findViewById(R.id.iv_profile_picture) as ImageView
 
         val tvProfileEmail = view.findViewById(R.id.tv_profile_email) as TextView
         val tvProfileName = view.findViewById(R.id.tv_profile_name) as TextView
@@ -73,6 +81,13 @@ class ProfileFragment : Fragment() {
         val txtProfileConfirmPassword = view.findViewById(R.id.profile_confirm_password) as EditText
         val pbProgressBar = view.findViewById(R.id.profileProgressBar) as ProgressBar
         val btnProfileSave = view.findViewById(R.id.profile_save) as Button
+
+
+        // Load profile picture into profile ImageView
+        Picasso.with(context)
+            .load("${Constants.BASE_URL}${profile_photo}")
+            .resize(125, 125)
+            .into(ivProfilePicture)
 
         val name: String = "${sharedPref!!.getString(FIRST_NAME, "")} " +
                            "${sharedPref!!.getString(LAST_NAME, "")}"
@@ -103,7 +118,7 @@ class ProfileFragment : Fragment() {
 
             call?.enqueue(object: Callback<SignUpResponseDTO> {
                 override fun onFailure(call: Call<SignUpResponseDTO>, t: Throwable) {
-                    Log.e("APIError", t.message)
+                    Log.e(TAG, t.message)
                 }
 
                 override fun onResponse(
@@ -117,9 +132,8 @@ class ProfileFragment : Fragment() {
                         var errorResponse: ErrorDTO? = gson.fromJson(response.errorBody()!!.charStream(), type)
 
                         Toast.makeText(mContext, "ERROR", Toast.LENGTH_LONG).show()
-                        Log.e("API Error", "ERROR")
+                        Log.e(TAG, "ERROR")
                     } else {
-                        Log.e("ERROR", response?.body()?.toString())
                         val name: String = "${txtProfileFirstName.text.toString()} " +
                                            "${txtProfileLastName.text.toString()}"
                         tvProfileName.text = name

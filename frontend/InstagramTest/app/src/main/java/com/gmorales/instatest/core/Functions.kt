@@ -6,6 +6,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import java.util.regex.Pattern.compile
 
+object Constants {
+    val BASE_URL = "http://192.168.0.12:8000"
+}
+
 private val emailRegex = compile(
     "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
             "\\@" +

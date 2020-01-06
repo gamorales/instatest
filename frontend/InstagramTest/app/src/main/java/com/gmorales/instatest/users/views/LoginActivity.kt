@@ -37,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
     private val FIRST_NAME = "instagram-first-name"
     private val LAST_NAME = "instagram-last-name"
     private val EMAIL = "instagram-email"
+    private val PHOTO = "instagram-profile-photo"
     var sharedPref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,6 +147,7 @@ class LoginActivity : AppCompatActivity() {
                                     editor.putString(EMAIL, "${responseUserData?.body()?.email}")
                                     editor.putString(FIRST_NAME, "${responseUserData?.body()?.first_name}")
                                     editor.putString(LAST_NAME, "${responseUserData?.body()?.last_name}")
+                                    editor.putString(PHOTO, "${responseUserData?.body()?.profile_photo}")
                                     editor.putString(TOKEN, accessToken)
                                     editor.putString(REFRESH, response?.body()?.refresh)
                                     editor.putBoolean(LOGGED, true)
