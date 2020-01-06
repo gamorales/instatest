@@ -58,6 +58,13 @@ interface UserAPI {
         @Field("confirm_password") confirm_password:String
     ):Call<SignUpResponseDTO>
 
+    @FormUrlEncoded
+    @POST("users/profile-pic/")
+    fun updateProfilePhoto(
+        @Header("Authorization") token:String,
+        @Field("email") email:String,
+        @Field("profile_pic") profile_pic:String
+    ):Call<PasswordResetResponseDTO>
 
 }
 

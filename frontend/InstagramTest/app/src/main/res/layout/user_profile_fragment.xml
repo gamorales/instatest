@@ -29,7 +29,8 @@
                 android:layout_width="match_parent"
                 android:id="@+id/iv_profile_picture"
                 android:src="@drawable/logo"
-                android:layout_gravity="center_horizontal|center_vertical"/>
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:clickable="false" />
 
         </androidx.cardview.widget.CardView>
 
