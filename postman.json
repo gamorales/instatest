@@ -211,7 +211,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"info@info.com\"\n}",
+					"raw": "{\n\t\"email\": \"info@info.com\",\n\t\"password\": \"ArPg44628/**/\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -293,6 +293,45 @@
 					],
 					"path": [
 						"reset-password",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload profile picture",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "instatest {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "profile_pic",
+							"type": "file",
+							"src": "/home/radicaled/Imágenes/Captura de pantalla de 2019-12-25 13-52-13.png"
+						},
+						{
+							"key": "email",
+							"value": "info@info.comas",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}users/profile-pic/",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"profile-pic",
 						""
 					]
 				}

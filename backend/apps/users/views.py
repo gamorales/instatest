@@ -366,7 +366,8 @@ def upload_pic(request):
         user = User.objects.get(email=request.data['email'])
 
         # First the pic will be saved in the path
-        file_path = f"{settings.MEDIA_ROOT}/profile_pics/profile_{user.id}.png"
+        file_media = f"profile_pics/profile_{user.id}.png"
+        file_path = f"{settings.MEDIA_ROOT}/{file_media}"
         picture = request.data['profile_pic']
 
         picture_bytes = picture.encode('utf-8')
@@ -374,7 +375,7 @@ def upload_pic(request):
             decoded_image_data = base64.decodebytes(picture_bytes)
             file.write(decoded_image_data)
 
-        request.data['profile_photo'] = file_path
+        request.data['profile_photo'] = f"{settings.MEDIA_URL}{file_media}"
 
         # Now is updated the User model
         serializer = UserSerializer(
