@@ -83,5 +83,6 @@
     <string name="title_friends">Contacts</string>
     <string name="title_profile">My Profile</string>
     <string name="profile_update">Update Profile</string>
+    <string name="profile_edit">Edit Profile</string>
 
 </resources>

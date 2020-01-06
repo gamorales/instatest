@@ -7,9 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 
 import com.gmorales.instatest.R
 
@@ -44,6 +42,13 @@ class ProfileFragment : Fragment() {
     fun setupUI(view: View) {
         val sharedPreference =  mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
+        val llProfileEditor = view.findViewById(R.id.llProfileEditor) as LinearLayout
+        val llProfileViewer = view.findViewById(R.id.llProfileViewer) as LinearLayout
+
+        val tvProfileEmail = view.findViewById(R.id.tv_profile_email) as TextView
+        val tvProfileName = view.findViewById(R.id.tv_profile_name) as TextView
+        val btnProfileEdit = view.findViewById(R.id.profile_edit) as Button
+
         val txtProfileEmail = view.findViewById(R.id.profile_email) as EditText
         val txtProfileFirstName = view.findViewById(R.id.profile_first_name) as EditText
         val txtProfileLastName = view.findViewById(R.id.profile_last_name) as EditText
@@ -51,12 +56,22 @@ class ProfileFragment : Fragment() {
         val txtProfileConfirmPassword = view.findViewById(R.id.profile_confirm_password) as EditText
         val btnProfileSave = view.findViewById(R.id.profile_save) as Button
 
+        val name: String = "${sharedPreference.getString(FIRST_NAME, "")} " +
+                           "${sharedPreference.getString(LAST_NAME, "")}"
+        tvProfileEmail.text = sharedPreference.getString(EMAIL, "")
+        tvProfileName.text = name
         txtProfileEmail.setText(sharedPreference.getString(EMAIL, ""))
         txtProfileFirstName.setText(sharedPreference.getString(FIRST_NAME, ""))
         txtProfileLastName.setText(sharedPreference.getString(LAST_NAME, ""))
 
+        btnProfileEdit.setOnClickListener {
+            llProfileEditor.visibility = View.VISIBLE
+            llProfileViewer.visibility = View.GONE
+        }
+
         btnProfileSave.setOnClickListener {
-            Toast.makeText(mContext, "lerolero", Toast.LENGTH_LONG).show()
+            llProfileEditor.visibility = View.GONE
+            llProfileViewer.visibility = View.VISIBLE
         }
     }
 
