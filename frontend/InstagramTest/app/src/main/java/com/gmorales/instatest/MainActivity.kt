@@ -12,18 +12,24 @@ import android.view.Menu
 import androidx.fragment.app.Fragment
 import com.gmorales.instatest.core.IOnBackPressed
 import com.gmorales.instatest.posts.views.HomeFragment
-//import com.gmorales.instatest.tips.views.TipsFragment
-//import com.gmorales.instatest.vips.views.VIPFragment
 import com.gmorales.instatest.users.views.LoginActivity
 import com.gmorales.instatest.users.views.ProfileFragment
-//import com.gmorales.instatest.users.views.SettingsFragment
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private val TAG = "MainActivity"
+
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "com.gmorales.instatest.prefs"
-    private val PREMIUM = "golden-play-premium"
+    private val TOKEN = "instagram-token"
+    private val REFRESH = "instagram-refresh-token"
+    private val LOGGED = "instagram-logged"
+    private val ID= "instagram-id"
+    private val FIRST_NAME = "instagram-first-name"
+    private val LAST_NAME = "instagram-last-name"
+    private val EMAIL = "instagram-email"
+    private val PHOTO = "instagram-profile-photo"
     var sharedPref: SharedPreferences? = null
 
     override fun onBackPressed() {
@@ -73,8 +79,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        // menuInflater.inflate(R.menu.mnu_main, menu)
+        menuInflater.inflate(R.menu.action_bar_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.mnu_logout -> {
+                val editor = sharedPref!!.edit()
+                editor.putInt(ID, 0)
+                editor.putString(EMAIL, "")
+                editor.putString(FIRST_NAME, "")
+                editor.putString(LAST_NAME, "")
+                editor.putString(PHOTO, "")
+                editor.putString(TOKEN, "")
+                editor.putString(REFRESH, "")
+                editor.putBoolean(LOGGED, false)
+                editor.apply()
+
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
