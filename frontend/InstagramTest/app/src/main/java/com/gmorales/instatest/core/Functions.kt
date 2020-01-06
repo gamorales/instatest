@@ -12,7 +12,7 @@ import java.util.regex.Pattern.compile
 
 
 object Constants {
-    val BASE_URL = "http://192.168.0.12:8000"
+    val BASE_URL = "http://35.199.123.208:8000"
 }
 
 fun ImageToBase64(bitmap: Bitmap): String {
