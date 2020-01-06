@@ -28,13 +28,14 @@ import retrofit2.Callback
 
 
 class LoginActivity : AppCompatActivity() {
-    private var PRIVATEMODE = 0
-    private val PREFNAME = "com.gmorales.instatest.prefs"
+    private var PRIVATE_MODE = 0
+    private val PREF_NAME = "com.gmorales.instatest.prefs"
     private val TOKEN = "instagram-token"
     private val REFRESH = "instagram-refresh-token"
     private val LOGGED = "instagram-logged"
     private val ID= "instagram-id"
-    private val NAME = "instagram-name"
+    private val FIRST_NAME = "instagram-first-name"
+    private val LAST_NAME = "instagram-last-name"
     private val EMAIL = "instagram-email"
     var sharedPref: SharedPreferences? = null
 
@@ -44,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.login_activity)
 
-        sharedPref = this.getSharedPreferences(PREFNAME, PRIVATEMODE)
+        sharedPref = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
 
         val logged: Boolean = sharedPref!!.getBoolean(LOGGED, false)
         signin_email.setText(sharedPref!!.getString(EMAIL, "").toString())
@@ -141,15 +142,13 @@ class LoginActivity : AppCompatActivity() {
                                     Log.e("API Error", errorResponse?.detail)
                                 } else {
                                     val editor = sharedPref!!.edit()
-                                    editor.putString(
-                                        NAME,
-                                        "${responseUserData?.body()?.first_name} " +
-                                        "${responseUserData?.body()?.last_name}"
-                                    )
                                     editor.putString(ID, "${responseUserData?.body()?.id}")
                                     editor.putString(EMAIL, "${responseUserData?.body()?.email}")
+                                    editor.putString(FIRST_NAME, "${responseUserData?.body()?.first_name}")
+                                    editor.putString(LAST_NAME, "${responseUserData?.body()?.last_name}")
                                     editor.putString(TOKEN, accessToken)
                                     editor.putString(REFRESH, response?.body()?.refresh)
+                                    editor.putBoolean(LOGGED, true)
                                     editor.apply()
 
                                     val intent = Intent(applicationContext, MainActivity::class.java)

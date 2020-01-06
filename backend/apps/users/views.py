@@ -354,6 +354,8 @@ def reset_password(request):
 def upload_pic(request):
     """ Updates User profile picture
 
+    Image is in base64 to be converted to file
+
     Args:
         request: Request access to consume the API
 

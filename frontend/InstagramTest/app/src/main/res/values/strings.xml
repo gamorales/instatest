@@ -77,5 +77,11 @@
     <string name="first_name_required">First name is required</string>
     <string name="password_not_equals">Password fields are not equals</string>
     <string name="password_bad_format">Password format no valid.</string>
+    <string name="title_search">Search</string>
+    <string name="title_add">New Post</string>
+    <string name="title_likes">Likes</string>
+    <string name="title_friends">Contacts</string>
+    <string name="title_profile">My Profile</string>
+    <string name="profile_update">Update Profile</string>
 
 </resources>
