@@ -136,4 +136,4 @@ dmypy.json
 .pyre/
 
 # Images folder
-.media/
+*/media/
