@@ -30,7 +30,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         Args:
             email: This field must be the format [a-zA-Z0-9]@[a-zA-Z0-9].[a-zA-Z0-9]
-            password: This field must have with 6-20 characters alphanumeric and extra character
+            password: This field must have with 8-20 characters alphanumeric and extra character
             confirm_password: This field must be equal to password field
 
         Raises:
@@ -107,9 +107,9 @@ letters and at least one special character.
         """ Builds, validates and updates the User object
 
         Args:
-            instance: pk or id of the record to be updated
+            instance: User object to be updated
             email: This field must be the format [a-zA-Z0-9]@[a-zA-Z0-9].[a-zA-Z0-9]
-            password: This field must have with 6-20 characters alphanumeric and extra character
+            password: This field must have with 8-20 characters alphanumeric and extra character
             confirm_password: This field must be equal to password field
             first_name:
             last_name:
@@ -123,21 +123,21 @@ letters and at least one special character.
         """
 
         email = self.validated_data['email']
-        password = self.validated_data['password']
         first_name = self.validated_data['first_name']
         last_name = self.validated_data['last_name']
+        password = self.validated_data['password']
         confirm_password = self.validated_data['confirm_password']
 
+        if password != '' and password != '________':
+            self.validate_fields(email, password, confirm_password)
+            instance.set_password(password)
+
         # Validate fields won't be empty
-        if email == '' and password == '' and first_name == '' and last_name == '':
+        if email == '' and first_name == '' and last_name == '':
             raise serializers.ValidationError("You must send at least one field with data")
 
         if email != '':
             instance.email = email
-
-        if password != '':
-            self.validate_fields(email, password, confirm_password)
-            instance.set_password(password)
 
         if first_name != '':
             instance.first_name = first_name

@@ -3,10 +3,7 @@ package com.gmorales.instatest.users.controllers
 import com.gmorales.instatest.users.models.*
 
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface UserAPI {
 
@@ -48,5 +45,19 @@ interface UserAPI {
         @Field("password") password:String,
         @Field("confirm_password") confirm_password:String
     ):Call<PasswordResetResponseDTO>
+
+    @FormUrlEncoded
+    @PUT("users/update/{id}")
+    fun updateUser(
+        @Header("Authorization") token:String,
+        @Path("id") id:Int,
+        @Field("first_name") first_name:String,
+        @Field("last_name") last_name:String,
+        @Field("email") email:String,
+        @Field("password") password:String,
+        @Field("confirm_password") confirm_password:String
+    ):Call<SignUpResponseDTO>
+
+
 }
 
