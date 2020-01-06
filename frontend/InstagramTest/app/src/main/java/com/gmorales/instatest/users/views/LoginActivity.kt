@@ -142,7 +142,7 @@ class LoginActivity : AppCompatActivity() {
                                     Log.e("API Error", errorResponse?.detail)
                                 } else {
                                     val editor = sharedPref!!.edit()
-                                    editor.putString(ID, "${responseUserData?.body()?.id}")
+                                    editor.putInt(ID, "${responseUserData?.body()?.id}".toInt())
                                     editor.putString(EMAIL, "${responseUserData?.body()?.email}")
                                     editor.putString(FIRST_NAME, "${responseUserData?.body()?.first_name}")
                                     editor.putString(LAST_NAME, "${responseUserData?.body()?.last_name}")
@@ -150,6 +150,8 @@ class LoginActivity : AppCompatActivity() {
                                     editor.putString(REFRESH, response?.body()?.refresh)
                                     editor.putBoolean(LOGGED, true)
                                     editor.apply()
+
+                                    loginProgressBar.visibility = View.GONE
 
                                     val intent = Intent(applicationContext, MainActivity::class.java)
                                     startActivity(intent)

@@ -7,11 +7,13 @@
     android:background="@color/colorPrimary">
 
     <LinearLayout
+        android:id="@+id/llProfileEditor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="10"
         android:orientation="vertical"
-        android:padding="@dimen/login_margin">
+        android:padding="@dimen/login_margin"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
@@ -92,6 +94,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/profile_update"
+            android:elevation="12dp"
+            android:background="@drawable/round_button"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/login_padding_top"
+            android:textColor="#FFF"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llProfileViewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:orientation="vertical"
+        android:padding="@dimen/login_margin">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_profile"
+            android:textSize="@dimen/login_signin_size"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FFFFFF"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_profile_email"
+            android:hint="@string/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/login_padding_top"
+            android:textColorHint="@color/primaryLightColor"
+            android:textColor="@color/primaryLightColor"
+            android:focusable="false"
+            android:textIsSelectable="true"/>
+
+        <TextView
+            android:id="@+id/tv_profile_name"
+            android:hint="@string/first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/login_padding_top"
+            android:textColorHint="@color/primaryLightColor"
+            android:textColor="@color/primaryLightColor"/>
+
+        <Button
+            android:id="@+id/profile_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_edit"
             android:elevation="12dp"
             android:background="@drawable/round_button"
             android:layout_weight="1"
