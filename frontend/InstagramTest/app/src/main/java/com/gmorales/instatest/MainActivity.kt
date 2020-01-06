@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private val TAG = "MainActivity"
+
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "com.gmorales.instatest.prefs"
     private val TOKEN = "instagram-token"

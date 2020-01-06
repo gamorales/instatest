@@ -84,5 +84,7 @@
     <string name="title_profile">My Profile</string>
     <string name="profile_update">Update Profile</string>
     <string name="profile_edit">Edit Profile</string>
+    <string name="picture_gallery">From gallery</string>
+    <string name="picture_camera">Take photo</string>
 
 </resources>
